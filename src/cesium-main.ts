@@ -11,15 +11,13 @@ import type { CameraKeyframe, LightPreset, Locator } from './types';
 
 installCesiumFetchInterceptor();
 
-const GOOGLE_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY as string | undefined;
+import { getGoogleKey } from './apiKeys';
+import { openApiKeysModal } from './apiKeysModal';
+
+const GOOGLE_KEY = getGoogleKey();
 if (!GOOGLE_KEY) {
-  document.body.innerHTML =
-    '<div style="padding:32px;font:16px system-ui;color:#fff;background:#111;height:100vh">' +
-    '<h2>Missing <code>VITE_GOOGLE_MAPS_API_KEY</code></h2>' +
-    '<p>Add to <code>.env</code>:</p><pre>VITE_GOOGLE_MAPS_API_KEY=...</pre>' +
-    '<p>Also ensure <b>Map Tiles API</b> is enabled in Google Cloud Console.</p>' +
-    '</div>';
-  throw new Error('VITE_GOOGLE_MAPS_API_KEY not set');
+  openApiKeysModal({ blocking: true, focus: 'google', reloadOnSave: true });
+  throw new Error('Google Maps API key not set — opening configuration modal');
 }
 
 Cesium.Ion.defaultAccessToken = '';
@@ -38,6 +36,8 @@ const addBtn = document.getElementById('add-location') as HTMLButtonElement | nu
 const lightSel = document.getElementById('light-select') as HTMLSelectElement | null;
 const markerBtn = document.getElementById('marker-toggle') as HTMLButtonElement | null;
 const mapPacksBtn = document.getElementById('map-packs') as HTMLButtonElement | null;
+const apiKeysBtn = document.getElementById('api-keys') as HTMLButtonElement | null;
+apiKeysBtn?.addEventListener('click', () => { openApiKeysModal(); });
 if (!MAP_PACKS_ENABLED) mapPacksBtn?.remove();
 
 function refreshMarkerBtn() {

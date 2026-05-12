@@ -7,20 +7,16 @@ import { openAddLocationModal } from './addLocationModal';
 import { loadUserLocators, upsertUserLocator } from './locatorStore';
 import { adjustKeyframesForTerrain, enforceMinAltAboveTarget } from './terrainSafety';
 import { MAP_PACKS_ENABLED, loadAllBlobUrls, lookupBlobUrl, openMapPacksModal } from '@internal';
+import { getMapboxToken, getGoogleKey } from './apiKeys';
+import { openApiKeysModal } from './apiKeysModal';
 import type { LightPreset, Locator } from './types';
 
-const GOOGLE_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY as string | undefined;
+const GOOGLE_KEY = getGoogleKey() || undefined;
 
-const TOKEN = import.meta.env.VITE_MAPBOX_TOKEN as string | undefined;
+const TOKEN = getMapboxToken();
 if (!TOKEN) {
-  document.body.innerHTML =
-    '<div style="padding:32px;font:16px system-ui;color:#fff;background:#111;height:100vh">' +
-    '<h2>Missing <code>VITE_MAPBOX_TOKEN</code></h2>' +
-    '<p>Create a <code>.env</code> file in the project root with:</p>' +
-    '<pre>VITE_MAPBOX_TOKEN=pk.your_mapbox_public_token</pre>' +
-    '<p>Get one at <a style="color:#6af" href="https://account.mapbox.com/">account.mapbox.com</a>, then restart <code>npm run dev</code>.</p>' +
-    '</div>';
-  throw new Error('VITE_MAPBOX_TOKEN not set');
+  openApiKeysModal({ blocking: true, focus: 'mapbox', reloadOnSave: true });
+  throw new Error('Mapbox token not set — opening configuration modal');
 }
 mapboxgl.accessToken = TOKEN;
 
@@ -40,6 +36,8 @@ const addBtn = document.getElementById('add-location') as HTMLButtonElement | nu
 const markerBtn = document.getElementById('marker-toggle') as HTMLButtonElement | null;
 const mapPacksBtn = document.getElementById('map-packs') as HTMLButtonElement | null;
 if (!MAP_PACKS_ENABLED) mapPacksBtn?.remove();
+const apiKeysBtn = document.getElementById('api-keys') as HTMLButtonElement | null;
+apiKeysBtn?.addEventListener('click', () => { openApiKeysModal(); });
 
 function refreshMarkerBtn() {
   if (!markerBtn) return;
