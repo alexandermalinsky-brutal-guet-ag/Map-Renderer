@@ -4,7 +4,7 @@
 
 A desktop / web app that produces "virtual fly-in" animations — the kind you see used as locator graphics for sports broadcasts, where the camera sweeps from an aerial view down to a specific stadium, arena, or landmark. Built for in-house R&D at Brutal Güet AG.
 
-![Map Renderer — Cesium engine showing a top-down 3D view of Lausanne with Vaudoise Aréna selected](docs/screenshots/hero.png)
+![Map Renderer — Cesium engine showing a top-down 3D view of Lausanne with Vaudoise Aréna selected](docs/screenshots/UI_Image_01.png)
 
 *Above: the Tauri desktop app, Cesium engine, photorealistic 3D tiles of Lausanne over Lake Geneva. Vaudoise Aréna is the active locator; the toolbar exposes locator selection, custom-location entry, light-preset, marker toggle, playback, video recording and deterministic prerender.*
 
