@@ -1,0 +1,73 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+
+jobs:
+  build:
+    permissions:
+      contents: write
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - platform: macos-latest
+            args: '--target aarch64-apple-darwin'
+            name: 'macOS (Apple Silicon)'
+          - platform: macos-13
+            args: '--target x86_64-apple-darwin'
+            name: 'macOS (Intel)'
+          - platform: windows-latest
+            args: ''
+            name: 'Windows'
+
+    runs-on: ${{ matrix.platform }}
+    name: Build ${{ matrix.name }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install Rust toolchain
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: ${{ matrix.platform == 'macos-latest' && 'aarch64-apple-darwin' || matrix.platform == 'macos-13' && 'x86_64-apple-darwin' || '' }}
+
+      - name: Rust cache
+        uses: swatinem/rust-cache@v2
+        with:
+          workspaces: './src-tauri -> target'
+
+      - name: Install npm dependencies
+        run: npm ci
+
+      - name: Build Tauri app
+        uses: tauri-apps/tauri-action@v0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          VITE_MAPBOX_TOKEN: ${{ secrets.VITE_MAPBOX_TOKEN }}
+          VITE_GOOGLE_MAPS_API_KEY: ${{ secrets.VITE_GOOGLE_MAPS_API_KEY }}
+        with:
+          tagName: ${{ github.ref_name }}
+          releaseName: 'Map Renderer ${{ github.ref_name }}'
+          releaseBody: |
+            Automated build of Map Renderer ${{ github.ref_name }}.
+
+            **Downloads:**
+            - macOS (Apple Silicon): `.dmg`
+            - macOS (Intel): `.dmg`
+            - Windows: `.msi`
+
+            Configure your Mapbox and Google Maps API keys on first launch (or via the bundled `.env`).
+          releaseDraft: true
+          prerelease: false
+          args: ${{ matrix.args }}
