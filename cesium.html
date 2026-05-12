@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Map Renderer — Cesium + Google 3D Tiles</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style>
+      html, body { margin: 0; height: 100%; background: #000; color: #fff; font-family: system-ui, -apple-system, sans-serif; }
+      #map { position: absolute; inset: 0; }
+      #ui {
+        position: absolute; top: 16px; left: 16px; z-index: 10;
+        display: flex; gap: 8px; align-items: center;
+        background: rgba(0,0,0,0.6); backdrop-filter: blur(8px);
+        padding: 10px 14px; border-radius: 10px; border: 1px solid #2a2a2a;
+      }
+      #ui button, #ui select, #ui a {
+        background: #111; color: #fff; border: 1px solid #333;
+        padding: 6px 12px; border-radius: 6px; cursor: pointer; font: inherit;
+        text-decoration: none;
+      }
+      #ui button:hover, #ui a:hover { background: #1b1b1b; }
+      #ui button:disabled { opacity: 0.4; cursor: not-allowed; }
+      #status {
+        position: absolute; bottom: 16px; left: 16px; z-index: 10;
+        padding: 6px 10px; font-size: 12px; color: #bbb;
+        background: rgba(0,0,0,0.5); border-radius: 6px;
+      }
+      .cesium-viewer-bottom, .cesium-widget-credits { display: none !important; }
+    </style>
+  </head>
+  <body>
+    <div id="map"></div>
+    <div id="ui">
+      <a href="/">← Mapbox</a>
+      <select id="locator-select"></select>
+      <button id="add-location" title="Add a preset or custom location">+ Add</button>
+      <button id="map-packs" title="Download offline map packs (Google 3D tiles)">⤓ Map Packs</button>
+      <select id="light-select">
+        <option value="day">Day</option>
+        <option value="dusk">Dusk</option>
+        <option value="dawn">Dawn</option>
+        <option value="night">Night</option>
+      </select>
+      <button id="marker-toggle" title="Toggle red marker on the target">● Marker on</button>
+      <button id="play">Play</button>
+      <button id="record">Record</button>
+      <button id="prerender" title="Frame-by-frame PNG export (deterministic, best quality)">Prerender</button>
+      <button id="stop" disabled>Stop</button>
+    </div>
+    <div id="status">idle</div>
+    <script type="module" src="/src/cesium-main.ts"></script>
+  </body>
+</html>

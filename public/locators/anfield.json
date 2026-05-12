@@ -1,0 +1,15 @@
+{
+  "id": "anfield",
+  "name": "Anfield — Liverpool FC",
+  "duration": 9,
+  "fps": 30,
+  "lightPreset": "dusk",
+  "target": { "lng": -2.96083, "lat": 53.43083, "altitude": 0, "label": "Anfield" },
+  "keyframes": [
+    { "lng": -3.80, "lat": 54.40, "zoom": 5.5,  "bearing": 0,   "pitch": 0  },
+    { "lng": -3.30, "lat": 53.80, "zoom": 8.5,  "bearing": -15, "pitch": 40 },
+    { "lng": -3.05, "lat": 53.55, "zoom": 11.5, "bearing": -30, "pitch": 60 },
+    { "lng": -2.98, "lat": 53.45, "zoom": 15.0, "bearing": -55, "pitch": 70 },
+    { "lng": -2.96083, "lat": 53.43083, "zoom": 17.5, "bearing": -80, "pitch": 76 }
+  ]
+}

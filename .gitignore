@@ -1,0 +1,16 @@
+node_modules
+dist
+.env
+.env.local
+.DS_Store
+*.webm
+*.mp4
+*.log
+
+# Tauri / Rust build artifacts
+src-tauri/target
+src-tauri/gen
+src-tauri/Cargo.lock
+
+# Internal-only: persistent tile cache (Map Packs feature, not for public distribution)
+src/internal/
