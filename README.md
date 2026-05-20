@@ -2,7 +2,7 @@
 
 **Broadcast-style 3D map flyovers, scriptable and renderable to video.**
 
-A desktop / web app that produces "virtual fly-in" animations — the kind you see used as locator graphics for sports broadcasts, where the camera sweeps from an aerial view down to a specific stadium, arena, or landmark. Built for in-house R&D at Brutal Güet AG.
+A desktop / web app that produces "virtual fly-in" animations — the kind you see used as locator graphics for sports broadcasts, where the camera sweeps from an aerial view down to a specific stadium, arena, or landmark.
 
 ![Map Renderer — Cesium engine showing a top-down 3D view of Lausanne with Vaudoise Aréna selected](docs/screenshots/UI_Image_01.png)
 
